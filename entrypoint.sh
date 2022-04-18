@@ -39,6 +39,10 @@ apt install -y --no-install-recommends git make bc bison openssl \
     curl zip kmod cpio flex libelf-dev libssl-dev libtfm-dev wget \
     device-tree-compiler ca-certificates python3 python2
 ln -sf "/usr/bin/python${python_version}" /usr/bin/python
+
+# Fix the error about unsafe checked out kernel sources directory
+sudo git config --global --add safe.directory /github/workspace
+
 set_output hash "$(cd "$kernel_path" && git rev-parse HEAD || exit 127)"
 msg "Installing toolchain..."
 if [[ $arch = "arm64" ]]; then
@@ -68,7 +72,7 @@ if [[ $arch = "arm64" ]]; then
         ver="${compiler/clang\/}"
         ver_number="${ver/\/binutils}"
         binutils="$([[ $ver = */binutils ]] && echo true || echo false)"
-        
+
         if $binutils; then
             additional_packages="binutils binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi"
             make_opts="CC=clang"
