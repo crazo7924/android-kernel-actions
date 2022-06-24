@@ -219,11 +219,17 @@ if ! make O=out $arch_opts $make_opts $host_make_opts -j"$(nproc --all)"; then
     err "Failed building kernel, probably the toolchain is not compatible with the kernel, or kernel source problem"
     exit 3
 fi
+if ! make O=out $arch_opts $make_opts $host_make_opts -j"$(nproc --all)" modules; then
+    err "Failed building modules, probably the toolchain is not compatible with the kernel, or kernel source problem"
+    exit 3
+fi
+
 set_output elapsed_time "$(echo "$(date +%s)"-"$start_time" | bc)"
 msg "Packaging the kernel..."
 zip_filename="${name}-${tag}-${date}.zip"
 if [[ -e "$workdir"/"$zipper_path" ]]; then
     cp out/arch/"$arch"/boot/"$image" "$workdir"/"$zipper_path"/"$image"
+    find out/ -type f -name "*.ko" -exec mv {} "$workdir"/"$zipper_path"/modules/system/lib/modules/ \;
     cd "$workdir"/"$zipper_path" || exit 127
     rm -rf .git
     zip -r9 "$zip_filename" . -x .gitignore README.md || exit 127
