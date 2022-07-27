@@ -22,11 +22,10 @@ extract_tarball(){
 }
 
 workdir="$GITHUB_WORKSPACE"
-arch="$1"
-compiler="$2"
-defconfig="$3"
-image="$4"
-name="$5"
+compiler="$1"
+defconfig="$2"
+image="$3"
+name="$4"
 
 arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
