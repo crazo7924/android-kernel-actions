@@ -5,9 +5,6 @@ branding:
   icon: box
   color: green
 inputs:
-  arch:
-    description: Device architecture
-    required: true
   compiler:
     description: Compiler to use
     required: true
@@ -17,14 +14,17 @@ inputs:
   image:
     description: Kernel image name
     required: true
+  name:
+    description: The custom kernel name
+    required: true
 outputs:
   outfile:
-    description: Zip file generated from build
+    description: A zip file generated from the build
 runs:
   using: docker
   image: Dockerfile
   args:
-    - ${{ inputs.arch }}
     - ${{ inputs.compiler }}
     - ${{ inputs.defconfig }}
     - ${{ inputs.image }}
+    - ${{ inputs.name }}

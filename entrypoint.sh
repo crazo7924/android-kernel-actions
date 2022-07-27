@@ -22,26 +22,24 @@ extract_tarball(){
 }
 
 workdir="$GITHUB_WORKSPACE"
-arch="$1"
-compiler="$2"
-defconfig="$3"
-image="$4"
-repo_name="${GITHUB_REPOSITORY/*\/}"
+compiler="$1"
+defconfig="$2"
+image="$3"
+name="$4"
+
+arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
 kernel_path="${KERNEL_PATH:-.}"
-name="${NAME:-$repo_name}"
-python_version="${PYTHON_VERSION:-3}"
 
 msg "Updating container..."
 apt update && apt upgrade -y
 msg "Installing essential packages..."
 apt install -y --no-install-recommends git make bc bison openssl \
     curl zip kmod cpio flex libelf-dev libssl-dev libtfm-dev wget \
-    device-tree-compiler ca-certificates python3 python2 xz-utils
-ln -sf "/usr/bin/python${python_version}" /usr/bin/python
+    device-tree-compiler ca-certificates python3 python-is-python3 xz-utils
 
 # Fix the error about unsafe checked out kernel sources directory
-git config --global --add safe.directory /github/workspace
+git config --global --add safe.directory "$workdir"
 
 set_output hash "$(cd "$kernel_path" && git rev-parse HEAD || exit 127)"
 msg "Installing toolchain..."
@@ -229,7 +227,6 @@ msg "Packaging the kernel..."
 zip_filename="${name}-${tag}-${date}.zip"
 if [[ -e "$workdir"/"$zipper_path" ]]; then
     cp out/arch/"$arch"/boot/"$image" "$workdir"/"$zipper_path"/"$image"
-    find out/ -type f -name "*.ko" -exec mv {} "$workdir"/"$zipper_path"/modules/vendor/lib/modules/ \;
     cd "$workdir"/"$zipper_path" || exit 127
     rm -rf .git
     zip -r9 "$zip_filename" . -x .gitignore README.md || exit 127
