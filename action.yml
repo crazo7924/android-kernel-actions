@@ -5,9 +5,12 @@ branding:
   icon: box
   color: green
 inputs:
-  arch:
-    description: Device architecture
+  repo:
+    description: Kernel sources repository URL
     required: true
+  ref:
+    description: Optional git repository ref
+    required: false
   compiler:
     description: Compiler to use
     required: true
@@ -19,12 +22,13 @@ inputs:
     required: true
 outputs:
   outfile:
-    description: Zip file generated from build
+    description: A zip file generated from the build
 runs:
   using: docker
   image: Dockerfile
   args:
-    - ${{ inputs.arch }}
+    - ${{ inputs.repo }}
+    - ${{ inputs.ref }}
     - ${{ inputs.compiler }}
     - ${{ inputs.defconfig }}
     - ${{ inputs.image }}
