@@ -28,6 +28,7 @@ defconfig="$3"
 image="$4"
 name="$5"
 
+arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
 kernel_path="${KERNEL_PATH:-.}"
 
