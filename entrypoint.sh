@@ -21,7 +21,7 @@ extract_tarball(){
     tar xf "$1" -C "$2"
 }
 
-workdir="$GITHUB_WORKSPACE"
+workdir="$GITHUB_WORKSPACE/kernel/source"
 compiler="$1"
 defconfig="$2"
 image="$3"
