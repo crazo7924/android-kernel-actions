@@ -26,7 +26,7 @@ compiler="$1"
 defconfig="$2"
 image="$3"
 name="$4"
-python_version="${PYTHON_VERSION:-3}"
+python_version="$5"
 
 arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
