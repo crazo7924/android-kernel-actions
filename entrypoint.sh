@@ -26,17 +26,23 @@ compiler="$1"
 defconfig="$2"
 image="$3"
 name="$4"
+python_version="${PYTHON_VERSION:-3}"
 
 arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
 kernel_path="${KERNEL_PATH:-.}"
+
+if [[ ($python_version -ne "3") || ($python_version -ne "2") ]]; then
+   err "Invalid python version. Must be 2 or 3"
+   exit 1
+fi
 
 msg "Updating container..."
 apt update && apt upgrade -y
 msg "Installing essential packages..."
 apt install -y --no-install-recommends git make bc bison openssl \
     curl zip kmod cpio flex libelf-dev libssl-dev libtfm-dev wget \
-    device-tree-compiler ca-certificates python3 python-is-python3 xz-utils
+    device-tree-compiler ca-certificates python"$python_version" python-is-python"$python_version" xz-utils
 
 # Fix the error about unsafe checked out kernel sources directory
 git config --global --add safe.directory "$workdir"
