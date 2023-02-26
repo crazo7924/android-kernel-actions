@@ -17,6 +17,9 @@ inputs:
   name:
     description: The custom kernel name
     required: true
+  python_version:
+    description: python version to be used for building this kernel source 
+    required: true
 outputs:
   outfile:
     description: A zip file generated from the build
@@ -28,3 +31,4 @@ runs:
     - ${{ inputs.defconfig }}
     - ${{ inputs.image }}
     - ${{ inputs.name }}
+    - ${{ inputs.python_version }}
