@@ -32,7 +32,7 @@ arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
 kernel_path="${KERNEL_PATH:-.}"
 
-if [[ ($python_version -ne "3") || ($python_version -ne "2") ]]; then
+if [[ ($python_version -ne 3) || ($python_version -ne 2) ]]; then
    err "Invalid python version. Must be 2 or 3"
    exit 1
 fi
