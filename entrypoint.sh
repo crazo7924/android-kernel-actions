@@ -204,6 +204,10 @@ else
     exit 100
 fi
 
+if [[ $compiler = *clang* ]]
+   make_opts += " LLVM=1"
+fi
+
 cd "$workdir"/"$kernel_path" || exit 127
 start_time="$(date +%s)"
 date="$(date +%d%m%Y-%I%M)"
