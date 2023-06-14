@@ -29,7 +29,7 @@ python_version="$5"
 
 arch="arm64"
 zipper_path="${ZIPPER_PATH:-zipper}"
-kernel_path="${KERNEL_PATH:-.}"
+kernel_path="${KERNEL_PATH:-kernel/source}"
 workdir="$GITHUB_WORKSPACE"
 if [[ -z $python_version ]]; then
    err "Invalid python version. Must be 2 or 3"
