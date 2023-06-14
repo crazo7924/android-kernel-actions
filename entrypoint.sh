@@ -204,7 +204,7 @@ else
     exit 100
 fi
 
-if [[ $compiler = *clang* ]]
+if [[ $compiler = *clang* ]]; then
    make_opts += " LLVM=1"
 fi
 
